@@ -1,0 +1,14 @@
+<%- include("../partials/header.ejs") %>
+
+<div class='song-page'>
+  <h2 class='songPage-title'><%= content.title %></h2>
+  <p class='songPage-artist'><%= content.artist %></p>
+  <p class='songPage-stream'><%= content.streams %></p>
+</div>
+
+<div class="buttons">
+  <button><a href="<%= `localhost:8000/top50/song/:${content.rank - 1}` %>">Previous</a></button>
+  <button><a href="localhost:8000/top50/song/:${content.rank + 1}" %>">Next</a></button>
+</div>
+
+<%- include("../partials/footer.ejs") %> 

@@ -7,8 +7,16 @@
 </div>
 
 <div class="buttons">
-  <button><a href="<%= `localhost:8000/top50/song/:${content.rank - 1}` %>">Previous</a></button>
-  <button><a href="localhost:8000/top50/song/:${content.rank + 1}" %>">Next</a></button>
+  <% if (content.rank > 1) { %>
+    <button><a href="<%= `./${content.rank - 1}` %>">Previous</a></button>
+  <% } %> 
+  <% if (content.rank < 50) { %>
+    <button><a href="<%= `./${content.rank + 1}` %>">Next</a></button>
+  <% } %> 
 </div>
 
 <%- include("../partials/footer.ejs") %> 
+
+<!-- Turnary operators I didn't use
+> 0 ? content.rank - 1 : content.rank
+< 51 ? content.rank + 1 : content.rank -->

@@ -24,28 +24,50 @@ const title = (req, res) => {
 // endpoints here
 app.get('/top50', title);
 
-const pageLoad = () => {
-    if (top50.find(song => song.rank <= 50)) {
-        app.get('/top50/song/:currentSong', (req, res) => {
-            let songRank = req.params.currentSong;
-            const song = top50.find(song => song.rank == songRank)
+// const pageLoad = () => {
+//     if (top50.find(song => song.rank <= 50)) {
+//         app.get('/top50/song/:currentSong', (req, res) => {
+//             let songRank = req.params.currentSong;
+//             const song = top50.find(song => song.rank == songRank)
+//             res.render('pages/songPage', {
+//                 content: song,
+//                 title: `Song #${songRank}`
+//             })
+//         });
+//     } else {
+//     // handle 404s
+//         app.get('*', (req, res) => {
+//             res.status(404);
+//             res.render('pages/fourOhFour', {
+//                 title: 'I got nothing',
+//                 path: req.originalUrl
+//             });
+//         });
+//     }
+// }
+
+const pageLoad = (req, res) => {
+    const songRank = req.params.currentSong;
+    top50.forEach((song) => {
+        if (song.rank == songRank) {
             res.render('pages/songPage', {
                 content: song,
                 title: `Song #${songRank}`
             })
-        });
-    } else {
-    // handle 404s
-        app.get('*', (req, res) => {
-            res.status(404);
-            res.render('pages/fourOhFour', {
-                title: 'I got nothing',
-                path: req.originalUrl
-            });
-        });
-    }
+        }
+    });
+    fourOhFour(req, res);
+};
+
+const fourOhFour = (req, res) => {
+    res.status(404);
+    res.render('pages/fourOhFour', {
+        title: 'I got nothing',
+        path: req.originalUrl
+    });
 }
 
-pageLoad();
+app.get('/top50/song/:currentSong', pageLoad);
+app.get('*', fourOhFour);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
